@@ -10,17 +10,16 @@ import re # for date validation
 st.set_page_config(
     page_title="NASA APOD Viewer",
     page_icon="🚀",
-    layout="wide", # Use wide layout for more screen space
+    layout="wide", 
     initial_sidebar_state="expanded"
 )
 
 # === NASA APOD API ===
-# NOTE: Using a DEMO key is standard practice for public examples.
-# You can replace this with your original key if you need higher limits.
+
 API_URL = "https://api.nasa.gov/planetary/apod"
-# The key provided in the prompt is replaced with the official NASA DEMO_KEY for security/reproducibility.
+
 # API_KEY = "eG6R1CynmBgOLFdCvMEi5s0oAeTRjXNEAYlqUifW"
-API_KEY = "DEMO_KEY" 
+API_KEY = "eG6R1CynmBgOLFdCvMEi5s0oAeTRjXNEAYlqUifW" 
 
 @st.cache_data(ttl=3600) # Cache the data for 1 hour to prevent excessive API calls
 def fetch_apod(date_str=None):
@@ -88,7 +87,7 @@ selected_date = st.sidebar.date_input(
     min_value=date(1995, 6, 16) # APOD start date
 ).strftime("%Y-%m-%d")
 
-# A button to explicitly fetch, although the date input changes can also trigger a rerun
+
 if st.sidebar.button("🚀 Fetch APOD", use_container_width=True):
     st.session_state['fetch_trigger'] = selected_date
     st.session_state['fetch_by_button'] = True
@@ -126,7 +125,7 @@ if fetch_date:
             img_url = data.get("url")
             hd_url = data.get("hdurl")
 
-        # Give a celebratory feel on success
+      
         if st.session_state.get('fetch_by_button', False):
             st.balloons()
             st.session_state['fetch_by_button'] = False # Reset trigger
@@ -196,4 +195,5 @@ if fetch_date:
     except Exception as e:
         # Display errors clearly to the user
         st.error(f"An error occurred while fetching the APOD: {e}")
+
         st.info("Please ensure the date is correctly formatted (YYYY-MM-DD) and not a future date.")
